@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class Methods {
+    Scanner input = new Scanner(System.in);
+    Scanner num = new Scanner(System.in);
+    int personCount = 0;
+
+
+    public Methods(){}
+
+    public Person makePerson() {
+        personCount++;
+        System.out.println("What is this user" + personCount + "'s name?");
+        String name = input.nextLine();
+        System.out.println("What is " + name + "'s attack range?");
+        int range = num.nextInt();
+        Person entity = new Person(name, range);
+        return entity;
+    }
+
+    public void battle(Person a, Person b) {
+        int distance;
+        if(a.getAttack_range()>b.getAttack_range()) {
+            distance = a.getAttack_range();
+        } else {
+            distance = b.getAttack_range();
+        }
+        System.out.println(a.getName() + " has encountered " + b.getName() + " at " + distance + " units away!");
+        if(a.getAttack_range() >= distance) {
+            System.out.println(a + " attacked!");
+        } else {
+            distance -= 100;
+        }
+        if(b.getAttack)
+
+    }
