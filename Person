@@ -1,0 +1,21 @@
+public class Person {
+    int attack_range;
+    String name;
+
+    public Person(String n, int range) {
+        attack_range = range;
+        name = n;
+    }
+
+    public void profile() {
+        System.out.println("Name: " + name +"\nRange: " + attack_range);
+    }
+
+    public int getAttack_range() {
+        return attack_range;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
