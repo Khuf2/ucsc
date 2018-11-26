@@ -1,0 +1,20 @@
+import java.util.Scanner;
+
+public class Runner {
+
+    public static void main(String[] args) {
+        // Creation of Scanners, reader for strings and inter for numbers
+        Scanner input = new Scanner(System.in);
+
+        Methods caller = new Methods();
+
+        Person user1 = caller.makePerson();
+        Person user2 = caller.makePerson();
+
+        user1.profile();
+        user2.profile();
+
+        caller.battle(user1, user2);
+
+    }
+}
