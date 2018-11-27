@@ -21,11 +21,28 @@ public class Methods {
 
     public Person makePerson() {
         personCount++;
-        System.out.println("What is user" + personCount + "'s name?");
+        System.out.print("What is user" + personCount + "'s name? :: ");
         String name = input.nextLine();
-        System.out.println("What is " + name + "'s attack range?");
+        if(name.equalsIgnoreCase("Kermit")) {
+            Person Kermit = new Person("Kermit", 200, 50, 100, 50, 4);
+            System.out.println("Kermit initialized for user" + personCount + ".");
+            return Kermit;
+        } else if(name.equalsIgnoreCase("Jarritos")) {
+            Person Jarritos = new Person("Jarritos", 150, 30, 200, 40, 2);
+            System.out.println("Jarritos initialized for user" + personCount + ".");
+            return Jarritos;
+        }
+        System.out.print("What is " + name + "'s attack range? :: ");
         int range = num.nextInt();
-        Person entity = new Person(name, range);
+        System.out.print("What is " + name + "'s speed? :: ");
+        int speed = num.nextInt();
+        System.out.print("What is " + name + "'s health? :: ");
+        int health = num.nextInt();
+        System.out.print("What is " + name + "'s power? :: ");
+        int power = num.nextInt();
+        System.out.print("What is " + name + "'s priority? :: ");
+        int priority = num.nextInt();
+        Person entity = new Person(name, range, speed, health, power, priority);
         return entity;
     }
 
@@ -40,28 +57,101 @@ public class Methods {
 
         // Declares combatants and distance
         this.delay(1000);
-        System.out.println(a.getName() + " has encountered " + b.getName() + " at " + distance + " units away!");
+        System.out.println(a.getName() + " has encountered " + b.getName() + " at " + distance + " units away!\n");
+        this.delay(1000);
 
-        if(a.getAttack_range() >= distance) {
+        // Menu window
+
+        System.out.println("*********************************************************************************************************************************");
+        while(a.isAlive()==true && b.isAlive()==true) {
             this.delay(1000);
-            System.out.println(a.getName() + " attacked!");
-        } else {
-            distance -= 100;
-            this.delay(1000);
-            System.out.println(a.getName() + " moved forward 100 units!");
+            if(distance < 0) {
+                distance = 0;
+            }
+
+            // Input interface
+
+            System.out.println("Distance: " + distance);
+            System.out.print("a) Attack b) Move? c) Skill d) Flee e) Stats:: ");
+            String response = input.next();
+
+            // Attack
+
+            if(response.equalsIgnoreCase("a")) {
+                if(a.getPriority()>b.getPriority()) {
+                    if (a.getAttack_range() >= distance) {
+                        System.out.println("\n");
+                        a.attack(b);
+                    } else {
+                        this.delay(1000);
+                        System.out.println("\nThe attack failed.");
+                    }
+                    if(b.isAlive()==true) {
+                        if (b.getAttack_range() >= distance) {
+                            b.attack(a);
+                        } else {
+                            distance -= b.getSpeed();
+                            this.delay(1000);
+                            System.out.println(b.getName() + " moved forward " + b.getSpeed() + " units!\n");
+                        }
+                    }
+                    System.out.println("*********************************************************************************************************************************");
+                }else if (b.getPriority() > a.getPriority()) {
+                    if (b.getAttack_range() >= distance) {
+                        System.out.println("\n");
+                        b.attack(a);
+                    } else {
+                        distance -= b.getSpeed();
+                        this.delay(1000);
+                        System.out.println("\n" + b.getName() + " moved forward " + b.getSpeed() + " units!");
+                    }
+                    if(a.isAlive()==true) {
+                        if (a.getAttack_range() >= distance) {
+                            a.attack(b);
+                            System.out.println("*********************************************************************************************************************************");
+                        } else {
+                            this.delay(1000);
+                            System.out.println("The attack failed.");
+                            System.out.println("*********************************************************************************************************************************");
+                        }
+                    }
+                }
+
+            // Move
+
+            } else if (response.equalsIgnoreCase("b")) {
+                if (a.getPriority() > b.getPriority()) {
+                    distance -= a.getSpeed();
+                    this.delay(1000);
+                    System.out.println("\n" + a.getName() + " moved forward " + a.getSpeed() + " units!");
+                    if (b.getAttack_range() >= distance) {
+                        b.attack(a);
+                        System.out.println("*********************************************************************************************************************************");
+                    } else {
+                        distance -= b.getSpeed();
+                        this.delay(1000);
+                        System.out.println(b.getName() + " moved forward " + b.getSpeed() + " units!\n");
+                        System.out.println("*********************************************************************************************************************************");
+                    }
+                } else if(b.getPriority() > a.getPriority()) {
+                    if (b.getAttack_range() >= distance) {
+                        b.attack(a);
+                    } else {
+                        distance -= b.getSpeed();
+                        this.delay(1000);
+                        System.out.println("\n" + b.getName() + " moved forward " + b.getSpeed() + " units!");
+                    }
+                    if(a.isAlive()==true) {
+                        distance -= a.getSpeed();
+                        this.delay(1000);
+                        System.out.println(a.getName() + " moved forward " + a.getSpeed() + " units!");
+                    }
+                    System.out.println("*********************************************************************************************************************************");
+                }
+            } else if(response.equalsIgnoreCase("e")) {
+                a.profile();
+                b.profile();
+            }
         }
-
-        if(b.getAttack_range() >= distance) {
-            this.delay(1000);
-            System.out.println(b.getName() + " attacked!");
-        } else {
-            distance -= 100;
-            this.delay(1000);
-            System.out.println(b.getName() + " moved forward 100 units!");
-        }
-
     }
-
 }
-// "PRIORITY" STAT FOR WHICH ACTION COMES FIRST
-// Speed stat for movement
