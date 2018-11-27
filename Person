@@ -8,7 +8,7 @@ public class Person {
     }
 
     public void profile() {
-        System.out.println("Name: " + name +"\nRange: " + attack_range);
+        System.out.println("\nName: " + name +"\nRange: " + attack_range + "\n");
     }
 
     public int getAttack_range() {
