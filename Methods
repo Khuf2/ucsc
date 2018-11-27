@@ -8,9 +8,20 @@ public class Methods {
 
     public Methods(){}
 
+    public void delay(int d) {
+        try
+        {
+            Thread.sleep(d);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     public Person makePerson() {
         personCount++;
-        System.out.println("What is this user" + personCount + "'s name?");
+        System.out.println("What is user" + personCount + "'s name?");
         String name = input.nextLine();
         System.out.println("What is " + name + "'s attack range?");
         int range = num.nextInt();
@@ -19,18 +30,38 @@ public class Methods {
     }
 
     public void battle(Person a, Person b) {
+        // Sets starting distance for battle
         int distance;
         if(a.getAttack_range()>b.getAttack_range()) {
             distance = a.getAttack_range();
         } else {
             distance = b.getAttack_range();
         }
+
+        // Declares combatants and distance
+        this.delay(1000);
         System.out.println(a.getName() + " has encountered " + b.getName() + " at " + distance + " units away!");
+
         if(a.getAttack_range() >= distance) {
-            System.out.println(a + " attacked!");
+            this.delay(1000);
+            System.out.println(a.getName() + " attacked!");
         } else {
             distance -= 100;
+            this.delay(1000);
+            System.out.println(a.getName() + " moved forward 100 units!");
         }
-        if(b.getAttack)
+
+        if(b.getAttack_range() >= distance) {
+            this.delay(1000);
+            System.out.println(b.getName() + " attacked!");
+        } else {
+            distance -= 100;
+            this.delay(1000);
+            System.out.println(b.getName() + " moved forward 100 units!");
+        }
 
     }
+
+}
+// "PRIORITY" STAT FOR WHICH ACTION COMES FIRST
+// Speed stat for movement
