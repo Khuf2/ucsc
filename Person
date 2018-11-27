@@ -1,14 +1,55 @@
 public class Person {
     int attack_range;
+    int speed;
+    int health;
+    int power;
+    int priority;
+    boolean alive;
     String name;
 
-    public Person(String n, int range) {
+    public Person(String n, int range, int s, int h, int p, int pr) {
         attack_range = range;
+        speed = s;
         name = n;
+        health = h;
+        power = p;
+        priority = pr;
+    }
+
+    public void delay(int d) {
+        try
+        {
+            Thread.sleep(d);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public boolean isAlive() {
+        if(health>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void attack(Person b) {
+        this.delay(1000);
+        b.setHealth(b.getHealth() - power);
+        System.out.print(name + " attacked for " + power + " damage!");
+        if (b.isAlive() == true) {
+            System.out.println(" " + b.getName() + " has " + b.getHealth() + " health!");
+        } else {
+            System.out.println(" " + b.getName() + " has died!");
+        }
     }
 
     public void profile() {
-        System.out.println("\nName: " + name +"\nRange: " + attack_range + "\n");
+        this.delay(1000);
+        System.out.println("\nName: " + name +"\nRange: " + attack_range + "\nSpeed: " + speed
+                + "\nHealth: " + health + "\nPower: " + power + "\nPriority: " + priority + "\n");
     }
 
     public int getAttack_range() {
@@ -17,5 +58,17 @@ public class Person {
 
     public String getName() {
         return name;
+    }
+
+    public int getSpeed() { return speed; }
+
+    public int getHealth() {return health;}
+
+    public int getPower() {return power;}
+
+    public int getPriority() {return priority;}
+
+    public void setHealth(int h) {
+        health = h;
     }
 }
