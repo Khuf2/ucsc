@@ -1,0 +1,197 @@
+
+public abstract class Character
+{
+    protected String charName, classChoice;
+    protected int level, attack, charHealth, speed, MAXHEALTH, enemiesKilled, specialCount, specialNeeded, coins, healthPots, manaPots, turnsPoisoned, antidote;
+    protected boolean poison;
+    
+    public Character(String name, String cc, int health, int att, int spd, int sn) {
+        charName = name;
+        classChoice = cc;
+        charHealth = health;
+        attack = att;
+        speed = spd;
+        level = 1;
+        MAXHEALTH = health;
+        specialCount = 0;
+        specialNeeded = sn;
+        coins = 0;
+        manaPots = 0;
+        healthPots = 0;
+        poison = false;
+        turnsPoisoned = 0;
+        antidote = 0;
+    }
+
+    public abstract int attack(Enemy enemy);
+        
+    public abstract void levelUp();
+    
+    public void incrementLevel() {
+        level++;
+    }
+    
+    public int getHealth() {
+        return charHealth;
+    }
+    
+    public int getSpeed() {
+        return speed;
+    }
+    
+    public int getLevel() {
+        return level;
+    }
+    
+    public int getSpecialCount() {
+        return specialCount;
+    }
+    
+    public String getName() {
+        return charName;
+    }
+    
+    public int getAttack() {
+        return attack;
+    }
+    
+    public int getCoins() {
+        return coins;
+    }
+    
+    public int getEnemiesKilled() {
+        return enemiesKilled;
+    }
+    
+    public int getMaxHealth() {
+        return MAXHEALTH;
+    }
+    
+    public int getHealthPots() {
+        return healthPots;
+    }
+    
+    public int getManaPots() {
+        return manaPots;
+    }
+    
+    public void addHealthPots(int amount) {
+        healthPots += amount;
+    }
+    
+    public void addManaPots(int amount) {
+        manaPots += amount;
+    }
+    
+    public void useHealthPots(Character character) {
+        character.addHealth(30);
+        character.addHealthPots(-1);
+        System.out.println("You heal 30 health.");
+    }
+    
+    public void useManaPots(Character character) {
+        character.setSpecialCount(specialNeeded);
+        character.addManaPots(-1);
+        System.out.println("Special is now ready.");
+    }
+    
+    public void setAttack(int att) {
+        attack = att;
+    }
+    
+    public void setSpeed(int spd) {
+        speed = spd;
+    }
+    
+    public void setCoins(int newCoins) {
+        coins = newCoins;
+    }
+    
+    public void addHealth(int health) {
+        if(charHealth + health > MAXHEALTH) {
+            charHealth = MAXHEALTH;
+        } else {
+            charHealth += health;
+        }
+    }
+    
+    public void setHealth(int health) {
+        charHealth = health;
+    }
+    
+    public void setMaxHealth(int MAX) {
+        MAXHEALTH = MAX;
+    }
+    
+    public void addEnemy() {
+        enemiesKilled++;
+    }
+    
+    public void specialIncrement() {
+        specialCount++;
+    }
+    
+    public void setSpecialCount(int setTo) {
+        specialCount = setTo;
+    }
+    
+    public boolean specialReady() {
+        if(specialCount >= specialNeeded) {
+            return true;
+        }
+        return false;
+    }
+    
+    public int turnsTillSpecial() {
+        return specialNeeded - specialCount;    
+    }
+    
+    public String getClassChoice() {
+        return classChoice;
+    }
+    
+    public void resetSpecial() {
+        specialCount = 0;
+    }
+    
+    public boolean getPoison() {
+        return poison;
+    }
+    
+    public void setPoison(boolean newPoison) {
+        poison = newPoison;
+    }
+    
+    public void poisonDamage() {
+        if(getPoison() == true) {
+            int damage = 5*getPoisonTurns();
+            setHealth(getHealth()-damage);
+            System.out.println("You take " + damage + " damage from poison.\n");
+        }
+    }
+    
+    public int getPoisonTurns() {
+        return turnsPoisoned;
+    }
+    
+    public void setPoisonTurns(int newPoisonTurns) {
+        turnsPoisoned = newPoisonTurns;
+    }
+    
+    public void addAntidote(int amount) {
+        antidote += amount;
+    }
+    
+    public int getAntidote() {
+        return antidote;
+    }
+    
+    public void useAntidote(Character character) {
+        character.setPoison(false);
+        character.setPoisonTurns(0);
+        character.addAntidote(-1);
+        System.out.println("You cure your poison.");
+    }
+    
+    public abstract int special(Enemy e);
+}
