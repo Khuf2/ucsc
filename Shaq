@@ -1,0 +1,38 @@
+public class Shaq extends Person
+{
+    public Shaq(String n, int range, int spd, int hlth, int pwr, int prio) {
+        super(n, range, spd, hlth, pwr, prio);
+    }
+
+    public void attack(Enemy b) {
+        super.delay(1000);
+        b.setHealth(b.getHealth() - power);
+        System.out.print("Shaq posts up on lil niggas for " + power + " damage!");
+        if (b.isAlive() == true) {
+            System.out.println(" " + b.getName() + " has " + b.getHealth() + " health!");
+        } else {
+            System.out.println(" " + b.getName() + " has been Shlaq-ed and died!");
+        }
+    }
+
+    public int move(int distance) {
+        this.delay(1000);
+        System.out.println("\nShaq travels forward " + speed + " units!");
+        distance -= speed;
+        return distance;
+    }
+
+    public boolean flee(Enemy b) {
+        System.out.println("\n");
+        super.delay(1000);
+        if(speed>=b.getSpeed()) {
+            System.out.println(name + " escaped from battle!\n");
+            super.delay(1000);
+            return true;
+        } else {
+            System.out.println(name + " was too slow to escape from battle!\n");
+            super.delay(1000);
+            return false;
+        }
+    }
+}
