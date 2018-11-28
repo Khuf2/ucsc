@@ -1,0 +1,26 @@
+
+public class Golem extends Enemy
+{
+    public Golem(int lvl) {
+        super("Golem", lvl, 15, 6, 1, 20);
+    }
+    
+    public int attack(Character character) {
+        int rand = (int) (Math.random() * (getAttack()/2));
+        int damage = getAttack() + rand;
+        System.out.println("The golem pummels you for " + damage + " damage.");
+        return character.getHealth()-damage;
+    }
+    
+    public String toString() {
+        String blanks = "                  ";
+        String s = blanks + "----------------\n";
+        s += blanks + "Level " + super.level + " Golem \n";
+        s += blanks + "Health: " + super.health + "\n";
+        s += blanks + "Attack: " + super.attack + "\n";
+        s += blanks + "Speed: " + super.speed + "\n";
+        s += blanks + "----------------\n";
+        return s;
+    }
+}
+
