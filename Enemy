@@ -1,4 +1,4 @@
-public abstract class Enemy {
+public abstract class Enemy extends Entity {
     int health;
     int power;
     int speed;
@@ -9,6 +9,7 @@ public abstract class Enemy {
     int lvl;
     int maxHealth;
     int attack_speed;
+    Format format = new Format();
 
     public Enemy(String name, int range, int health, int pwr, int spd, int specialTimer, int priority, int lvl) {
         this.name = name;
@@ -22,17 +23,6 @@ public abstract class Enemy {
         this.lvl = lvl;
         this.maxHealth = health;
 
-    }
-
-    public void delay(int d) {
-        try
-        {
-            Thread.sleep(d);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
     }
 
     public void getBattleStats() {
