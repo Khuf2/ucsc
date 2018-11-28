@@ -5,8 +5,11 @@ public class Methods {
     Scanner num = new Scanner(System.in);
     int personCount = 0;
 
-
     public Methods(){}
+
+    public void newLine() {
+        System.out.println("\n");
+    }
 
     public void delay(int d) {
         try
@@ -69,8 +72,19 @@ public class Methods {
                 distance = 0;
             }
 
-            // Input interface
+            // Distance visualizer
+            int hashes = distance / 20;
+            System.out.print("0");
+            for(int i = 0; i<hashes; i++) {
+                System.out.print(" - ");
+            }
+            System.out.println("0");
 
+            // Display battle stats before next move
+            a.getBattleStats();
+            b.getBattleStats();
+            this.newLine();
+            // Input interface
             System.out.println("Distance: " + distance);
             System.out.print("a) Attack b) Move? c) Skill d) Flee e) Stats:: ");
             String response = input.next();
@@ -117,7 +131,7 @@ public class Methods {
                     }
                 }
 
-            // Move
+                // Move
 
             } else if (response.equalsIgnoreCase("b")) {
                 if (a.getPriority() > b.getPriority()) {
@@ -149,8 +163,7 @@ public class Methods {
                     System.out.println("*********************************************************************************************************************************");
                 }
             } else if(response.equalsIgnoreCase("e")) {
-                a.profile();
-                b.profile();
+                a.profile(a, b);
             }
         }
     }
