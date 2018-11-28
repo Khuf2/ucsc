@@ -10,8 +10,13 @@ public class Runner {
 
         Person user1 = caller.makePerson();
 
+        user1.incrementSkill();
+
         Enemy enemy1 = caller.makeEnemy("Bummy Ass Nigga");
+        enemy1.incrementSkill();
+
         caller.battle(user1, enemy1);
+
 
     }
 }
