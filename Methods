@@ -1,27 +1,12 @@
-
 import java.util.Scanner;
 
 public class Methods {
     Scanner input = new Scanner(System.in);
     Scanner num = new Scanner(System.in);
     int personCount = 0;
+    Format format = new Format();
 
     public Methods(){}
-
-    public void newLine() {
-        System.out.println("\n");
-    }
-
-    public void delay(int d) {
-        try
-        {
-            Thread.sleep(d);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
-    }
 
     public Person makePerson() {
         personCount++;
@@ -77,22 +62,22 @@ public class Methods {
     }
 
     public void profile(Person a, Enemy b) {
-        this.delay(1000);
+        format.delay(1000);
         // "Name: will always be 7 to 26 chars
         // We always want at least 10 chars in Name: m
         // integer of 6 + name.length()
         // "Range: will always have 7 to 10 chars
-        String rangeString = "\nRange: " + a.attack_range;
-        String speedString = "\nSpeed: " + a.speed;
-        String powerString = "\nPower: " + a.power;
-        String healthString = "\nHealth: " + a.health;
-        String priorityString = "\nPriority: " + a.priority;
-        int nameStringLength = 6 + a.name.length();
-        int rangeStringLength = a.name.length() - (String.valueOf(a.attack_range).length()+1);
-        int speedStringLength = a.name.length() - (String.valueOf(a.speed).length()+1);
-        int powerStringLength = a.name.length() - (String.valueOf(a.power).length()+1);
-        int healthStringLength = a.name.length() - (String.valueOf(a.health).length()+2);
-        int priorityStringLength = a.name.length() - (String.valueOf(a.priority).length()+4);
+        String rangeString = "\nRange: " + a.getAttackRange();
+        String speedString = "\nSpeed: " + a.getSpeed();
+        String powerString = "\nPower: " + a.getPower();
+        String healthString = "\nHealth: " + a.getHealth();
+        String priorityString = "\nPriority: " + a.getPriority();
+        int nameStringLength = 6 + a.getName().length();
+        int rangeStringLength = a.getName().length() - (String.valueOf(a.getAttackRange()).length()+1);
+        int speedStringLength = a.getName().length() - (String.valueOf(a.getSpeed()).length()+1);
+        int powerStringLength = a.getName().length() - (String.valueOf(a.getPower()).length()+1);
+        int healthStringLength = a.getName().length() - (String.valueOf(a.getHealth()).length()+2);
+        int priorityStringLength = a.getName().length() - (String.valueOf(a.getPriority()).length()+4);
         for(int i = 0; i < rangeStringLength; i++) {
             rangeString += " ";
         }
@@ -108,10 +93,11 @@ public class Methods {
         for(int i = 0; i < priorityStringLength; i++) {
             priorityString += " ";
         }
-        System.out.println("\nName: " + a.name +  "\t\tEnemy Name: " + b.name + rangeString + "\t\tEnemy Range: " + b.attack_range + speedString
-                + "\t\tEnemy Speed: " + b.speed + healthString + "\t\tEnemy Health: " + b.health + powerString + "\t\tEnemy Power: " + b.power + priorityString + "\t\tEnemy Priority: " + b.priority + "\n");
+        System.out.println("\nName: " + a.getName() +  "\t\tEnemy Name: " + b.getName() + rangeString + "\t\tEnemy Range: " + b.getAttackRange() + speedString
+                + "\t\tEnemy Speed: " + b.getSpeed() + healthString + "\t\tEnemy Health: " + b.getHealth() + powerString + "\t\tEnemy Power: " + b.getPower() + priorityString + "\t\tEnemy Priority: " + b.getPriority() + "\n");
 
     }
+
 
     public void battle(Person person, Enemy enemy) {
         // Sets starting distance for battle
@@ -124,16 +110,16 @@ public class Methods {
         }
 
         // Declares combatants and distance
-        this.delay(1000);
+        format.delay(1000);
         System.out.println(person.getName() + " has encountered " + enemy.getName() + " at " + distance + " units away!\n");
-        this.delay(1000);
+        format.delay(1000);
 
         // Menu window
 
-        System.out.println("*********************************************************************************************************************************");
+        format.newDivider();
         boolean flee = false;
-        while(person.isAlive()==true && enemy.isAlive()==true && !flee) {
-            this.delay(1000);
+        while(person.isAlive() && enemy.isAlive() && !flee) {
+            format.delay(1000);
             if(distance < 0) {
                 distance = 0;
             }
@@ -149,7 +135,7 @@ public class Methods {
             // Display battle stats before next move
             person.getBattleStats();
             enemy.getBattleStats();
-            this.newLine();
+            format.newLine();
             // Input interface
             System.out.println("Distance: " + distance);
             System.out.print("a) Attack b) Move? c) Skill d) Flee e) Stats:: ");
@@ -159,36 +145,36 @@ public class Methods {
 
             if(response.equalsIgnoreCase("a")) {
                 if(person.getPriority()>=enemy.getPriority()) {
-                    if (person.getAttack_range() >= distance) {
-                        this.newLine();
+                    if (person.getAttackRange() >= distance) {
+                        format.newLine();
                         person.attack(enemy);
                     } else {
-                        this.delay(1000);
+                        format.delay(1000);
                         System.out.println("\nThe attack failed.");
                     }
-                    if(enemy.isAlive()==true) {
+                    if(enemy.isAlive()) {
                         if (enemy.getAttackRange() >= distance) {
                             enemy.attack(person);
                         } else {
                             distance = enemy.move(distance);
                         }
                     }
-                    System.out.println("*********************************************************************************************************************************");
+                    format.newDivider();
                 }else if (enemy.getPriority() > person.getPriority()) {
                     if (enemy.getAttackRange() >= distance) {
-                        this.newLine();
+                        format.newLine();
                         enemy.attack(person);
                     } else {
                         distance = enemy.move(distance);
                     }
-                    if(person.isAlive()==true) {
-                        if (person.getAttack_range() >= distance) {
+                    if(person.isAlive()) {
+                        if (person.getAttackRange() >= distance) {
                             person.attack(enemy);
-                            System.out.println("*********************************************************************************************************************************");
+                            format.newDivider();
                         } else {
-                            this.delay(1000);
+                            format.delay(1000);
                             System.out.println("The attack failed.");
-                            System.out.println("*********************************************************************************************************************************");
+                            format.newDivider();
                         }
                     }
                 }
@@ -200,27 +186,29 @@ public class Methods {
                     distance = person.move(distance);
                     if (enemy.getAttackRange() >= distance) {
                         enemy.attack(person);
-                        System.out.println("*********************************************************************************************************************************");
+                        format.newDivider();
                     } else {
                         distance = enemy.move(distance);
-                        System.out.println("*********************************************************************************************************************************");
+                        format.newDivider();
                     }
                 } else if(enemy.getPriority() > person.getPriority()) {
                     if (enemy.getAttackRange() >= distance) {
-                        this.newLine();
+                        format.newLine();
                         enemy.attack(person);
                     } else {
                         distance = enemy.move(distance);
                     }
-                    if(person.isAlive()==true) {
+                    if(person.isAlive()) {
                         distance = person.move(distance);
                     }
-                    System.out.println("*********************************************************************************************************************************");
+                    format.newDivider();
                 }
-            } else if(response.equalsIgnoreCase("e")) {
-                this.profile(person, enemy);
+            } else if(response.equalsIgnoreCase("c")) {
+                person.skill(enemy);
             } else if(response.equalsIgnoreCase("d")) {
                 flee = person.flee(enemy);
+            } else if(response.equalsIgnoreCase("e")) {
+                this.profile(person, enemy);
             }
         }
     }
