@@ -1,0 +1,32 @@
+public abstract class Entity {
+
+    public void incrementSkill() {
+        System.out.println("King of New York");
+    }
+
+    int health;
+    int power;
+    int speed;
+    int attack_range;
+    String name;
+    int specialTimer;
+    int priority;
+    int lvl;
+    int maxHealth;
+    int attack_speed;
+    Format format = new Format();
+
+    public Entity(String name, int range, int health, int pwr, int spd, int priority, int specialTimer, int lvl) {
+        this.name = name;
+        this.health = health;
+        this.power = pwr;
+        this.speed = spd;
+        this.name = name;
+        this.attack_range = range;
+        this.specialTimer = specialTimer;
+        this.priority = priority;
+        this.lvl = lvl;
+        this.maxHealth = health;
+
+    }
+}
