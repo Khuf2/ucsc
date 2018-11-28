@@ -1,0 +1,583 @@
+// Theo Novak
+
+import java.util.Scanner;
+import java.util.ArrayList;
+/*
+- Swap continue method in battles to try/catch delay
+- Work on formatting in terminal
+- Add more unique (1 time use) methods to mix gameplay
+- DYSENTERY BOOLEAN
+ */
+public class TextGame
+{
+    Character character;
+    static Scanner input = new Scanner(System.in);
+    private static String cont;
+    static String blanks = "                  ";
+    ArrayList<String> riddles = new ArrayList<String>();
+    ArrayList<String> solutions = new ArrayList<String>();
+    boolean dysentery = false;
+
+    public TextGame(){
+        riddles.add("What tastes better than it smells?"); //Tongue (0)
+        riddles.add("What is brown and has a head and a tail, yet has no legs?"); //Penny (1)
+        riddles.add("You answer me, but I never ask you questions. What am I?"); //Telephone (2)
+        solutions.add("Tongue");
+        solutions.add("Penny");
+        solutions.add("Phone");
+    }
+    
+    public String introSequence() {
+        String s = "";
+        s += "You BEEtter BEE ready to BEEcome enthralled in this game, BEEcause it's BEEn tested to BEE great! You BEEtter BEElieve it!\n\n";
+        s += " ██ ▄█▀ ██░ ██  █    ██   █████▒ ██████     ██░ ██  ██▓ ██▒   █▓▓█████\n"; 
+        s += " ██▄█▒ ▓██░ ██▒ ██  ▓██▒▓██   ▒▒██    ▒    ▓██░ ██▒▓██▒▓██░   █▒▓█   ▀\n"; 
+        s += "▓███▄░ ▒██▀▀██░▓██  ▒██░▒████ ░░ ▓██▄      ▒██▀▀██░▒██▒ ▓██  █▒░▒███\n";   
+        s += "▓██ █▄ ░▓█ ░██ ▓▓█  ░██░░▓█▒  ░  ▒   ██▒   ░▓█ ░██ ░██░  ▒██ █░░▒▓█  ▄\n"; 
+        s += "▒██▒ █▄░▓█▒░██▓▒▒█████▓ ░▒█░   ▒██████▒▒   ░▓█▒░██▓░██░   ▒▀█░  ░▒████▒\n";
+        s += "▒ ▒▒ ▓▒ ▒ ░░▒░▒░▒▓▒ ▒ ▒  ▒ ░   ▒ ▒▓▒ ▒ ░    ▒ ░░▒░▒░▓     ░ ▐░  ░░ ▒░ ░\n";
+        s += "░ ░▒ ▒░ ▒ ░▒░ ░░░▒░ ░ ░  ░     ░ ░▒  ░ ░    ▒ ░▒░ ░ ▒ ░   ░ ░░   ░ ░  ░\n";
+        s += "░ ░░ ░  ░  ░░ ░ ░░░ ░ ░  ░ ░   ░  ░  ░      ░  ░░ ░ ▒ ░     ░░     ░\n";   
+        s += "░  ░    ░  ░  ░   ░                  ░      ░  ░  ░ ░        ░     ░  ░\n";
+        s += "                                                            ░\n";          
+        return s;
+    }
+
+    public void deathSequence(Character c) {
+        System.out.println("RIP, you died.\n" + character);
+        System.exit(0);
+    }
+
+    public static void delay(int seconds) {
+        try {
+            Thread.sleep(1000 * seconds);                 //1000 milliseconds is one second.
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    
+    public static void delayHalf(int seconds) {
+        try {
+            Thread.sleep(500 * seconds);                 //1000 milliseconds is one second.
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public Character characterSelect() {
+        boolean classSelected = false;
+        while(classSelected == false) {
+            System.out.print("Pick a class! Heavy, Ranged, or Medic? Type info for details :: ");
+            String classPick = input.next();
+            if(classPick.equalsIgnoreCase("Heavy")) {
+                System.out.print("What's your " + classPick + "'s name? :: ");
+                String charName = input.next();
+                character = new Heavy(charName);
+                classSelected = true;
+            } else if(classPick.equalsIgnoreCase("Ranged")) {
+                System.out.print("What's your " + classPick + "'s name? :: ");
+                String charName = input.next();
+                character = new Ranged(charName);
+                classSelected = true;
+            } else if(classPick.equalsIgnoreCase("Medic")){
+                System.out.print("What's your " + classPick + "'s name? :: ");
+                String charName = input.next();
+                character = new Medic(charName);
+                classSelected = true;
+            } else {
+                System.out.println("\nHeavy: Slow, tanky attacker. --- Special: Uses enemy attack in an attack against the enemy.");
+                System.out.println("Ranged: Quick, fragile attacker. --- Special: Attacks the enemy with double damage. 25% chance to miss.");
+                System.out.println("Medic: Weak, tanky attacker. --- Special: Able to heal by 5 times the character's level.\n");
+            }
+        }
+        return character;
+    }
+
+    public void characterStats(Character c) {
+        System.out.println(c);
+    }
+
+    public void leftRightPath(String healthSide, Character c) {
+        System.out.print("Fork in the road! Left or Right? :: ");
+        String answer = input.next();
+        int health = 10 * c.getLevel();
+        if(answer.equalsIgnoreCase(healthSide)) {
+            c.addHealth(health/2);
+            System.out.println("\nA cleric restores " + health/2 + " of your health.\n");
+            TextGame.delay(1);
+        } else {
+            c.addHealth(-1*health);
+            System.out.println("\nBEES! You lose " + health + " health.\n");
+            TextGame.delay(1);
+        } 
+        System.out.println(character);
+        TextGame.delay(1);
+    }
+
+    public void leftRightPath(String enemySide, Character c, Enemy e) {
+        System.out.print("Fork in the road! Left or Right? :: ");
+        String answer = input.next();
+        if(answer.equalsIgnoreCase(enemySide)) {
+            battle(c, e);
+        } else {
+            System.out.println("\nYou safely pass through the path.\n");
+            TextGame.delay(1);
+        } 
+    }
+
+    public void randomChance(Character c) {
+        System.out.print("An imp with a wheel offers a chance to gain health, but with a risk of losing health.\nDo you spin the wheel? ");
+        String play = input.next();
+        if(play.equalsIgnoreCase("Yes")) {
+            int rand = (int) (Math.random() * 4);
+            if(rand > 0) {
+                System.out.println("You spin the wheel and lose, the imp steals 10 health from you.");
+                c.setHealth(c.getHealth()- 10);
+                System.out.println("Fight the imp for your health back and a small bonus?");
+                play = input.next();
+                fightImp(play, c);
+            } else {
+                System.out.println("You land the correct slot on the wheel and gain 30 health.");
+                c.addHealth(30);
+                System.out.println(character);
+            }
+        } else {
+            System.out.println("You decide not to play.\n");
+            TextGame.delay(1);
+        }
+    }
+
+    public void fightImp(String play, Character c) {
+        if(play.equalsIgnoreCase("Yes")) {
+            System.out.println("You decide the imp needs to die.\n");
+            Enemy imp = new Imp(c.getLevel());
+            battle(c, imp);
+            System.out.println("You gain 20 health from the imp's corpse.\n");
+            c.addHealth(20);
+        } else {
+            System.out.println("You let the imp live.\n");
+            TextGame.delay(1);
+        }
+    }
+
+    public void battle(Character character, Enemy enemy) {
+        boolean battleEnd = false;
+        System.out.println("\n" + blanks +"A " + enemy.getName() + " appears!\n");
+        boolean once = false;
+        while (!battleEnd) {
+            if (character.getHealth() > 0) {
+                if (enemy.getHealth() > 0) {
+                    boolean chosen = false;
+                    TextGame.delay(1);
+                    System.out.println(enemy);
+
+                    while(chosen == false) {
+                        System.out.println("1) Attack \n2) Stats\n3) Special\n4) Health Potion\n5) Mana Potion\n6) Antidote\n");
+                        int choice = input.nextInt();
+                        if(choice == 2) {
+                            characterStats(character);
+                        } else if (choice == 3) {
+                            if(character.turnsTillSpecial() <= 0) {
+                                chosen = true;
+                            }
+                            if(character.getClassChoice().equals("Ranged")) {
+                                enemy.setHealth(character.special(enemy));
+                            } else if(character.getClassChoice().equals("Heavy")) {
+                                enemy.setHealth(character.special(enemy));
+                            } else {
+                                character.special(enemy);    
+                            }
+                        } else if (choice == 4) {
+                            if(character.getHealthPots() > 0) {
+                                character.useHealthPots(character);
+                            } else {
+                                System.out.println("You have no health potions.\n");
+                            }
+                        } else if (choice == 5) {
+                            if(character.getManaPots() > 0) {
+                                character.useManaPots(character);
+                            } else {
+                                System.out.println("You have no mana potions.\n");
+                            }
+                        } else if (choice == 6) {
+                            if(character.getAntidote() > 0) {
+                                if(character.getPoison()==true) {
+                                    character.useAntidote(character);
+                                } else {
+                                    System.out.println("You aren't poisoned.");
+                                }
+                            } else {
+                                System.out.println("You have no antidotes.\n");
+                            }
+                        } else {
+                            chosen = true;
+                        }
+                    }
+
+                    character.specialIncrement();
+                    character.poisonDamage();
+                    if(character.getHealth() > 0) {
+                        if (enemy.getHealth() > 0) {
+                            if(character.getSpeed() >= enemy.getSpeed()) {
+                                enemy.setHealth(character.attack(enemy));
+                                TextGame.delay(1);
+                                if(enemy.getHealth() > 0) {
+                                    character.setHealth(enemy.attack(character));
+                                }
+                            } else {
+                                character.setHealth(enemy.attack(character));
+                                TextGame.delay(1);
+                                if(character.getHealth() > 0) {
+                                    enemy.setHealth(character.attack(enemy));
+                                }   
+                            }
+                        }
+
+                        if(character.getPoison() == true) {
+                            character.setPoisonTurns(character.getPoisonTurns()+1);
+                        }
+                    }
+                } else {
+                    System.out.println("\n*Enemy dies*");
+                    battleEnd = true;
+                    character.addEnemy();
+                    character.levelUp();
+                    character.setCoins(character.getCoins() + enemy.deathCoins(character));
+                    TextGame.delay(1);
+                    System.out.println(character);
+                    int rand = (int) (Math.random()*2);
+                    if(rand == 0) {
+                        battleChest(character);
+                    }
+                    TextGame.delay(1);
+                }
+            }
+            else {
+                TextGame.delay(1);
+                battleEnd = true;
+                deathSequence(character);
+            }
+        }
+    }
+
+    public void riddle(Character character) {
+        int rand = (int) (Math.random() * 3);
+        String theRiddle = riddles.get(rand);
+        System.out.println("You come across a gatekeeper with a riddle:\n");
+        TextGame.delay(1);
+        System.out.print(theRiddle + " :: ");
+        String answer = input.next();
+        if(!answer.equalsIgnoreCase(solutions.get(rand))) {
+            System.out.println("\nIncorrect. Get smoted. You lose 20 health.\n");
+            character.setHealth(character.getHealth()-20);
+            TextGame.delay(1);
+        } else {
+            System.out.println("\nCorrect! The answer was " + solutions.get(rand) + ".\nHe allows you to pass and increases your attack power by 3.\n");
+            character.setAttack(character.getAttack()+3);
+            TextGame.delay(1);
+        }
+        System.out.println(character);
+        TextGame.delay(1);
+    }
+
+    public void fruitRollup(Character character) {
+        System.out.println("Eyo! You spy a fruit rollup marinating in the mud of the dungeon. Eat it?");
+        String answer = input.next();
+        if(answer.equalsIgnoreCase("Yes")) {
+            System.out.println("You eat the fruit rollup. It tastes rubbery, but heals you 10 health.\n");
+            character.addHealth(10);
+            TextGame.delay(1);
+            dysentery = true;
+        } else if(answer.equalsIgnoreCase("No")) {
+            System.out.println("But aren't you curious to see what flavor it is?");
+            answer = input.next();
+            if(answer.equalsIgnoreCase("Yes")) {
+                System.out.println("You eat the fruit rollup. It tastes like blue-raspberry and mud, but heals you 10 health.\n");
+                character.addHealth(10);
+                TextGame.delay(1);
+                dysentery = true;
+            }
+        } else {
+            System.out.println("You leave the unknown-flavored fruit rollup in the mud.\n");
+            TextGame.delay(1);
+        }
+    }
+
+    public void healthMerchant(Character character) {
+        System.out.println("You come across a merchant that will grant stat buffs,\nat the cost of a stat debuff.\n");
+        TextGame.delay(1);
+        boolean doneShopping = false;
+        while(doneShopping == false) {   
+            System.out.println("1) 1 Attack -> 10 Health\n2) 10 Health -> 1 Attack\n3) Done\n");
+            int choice = input.nextInt();
+            if(choice == 1) {
+                if(character.getAttack() > 1) {
+                    character.addHealth(10);
+                    character.setAttack(character.getAttack()-1);
+                    System.out.println("You pay 1 attack for 10 health.\n" + character);
+                } else {
+                    System.out.println("You don't have the necessary attack to pay!\n");
+                }
+            } else if(choice == 2) {
+                if(character.getHealth() > 10) {
+                    character.setAttack(character.getAttack()+1);
+                    character.setHealth(character.getHealth()-10);
+                    System.out.println("You pay 10 health for 1 attack.\n" + character);
+                } else {
+                    System.out.println("You don't have the necessary health to pay!\n");
+                }
+            } else {
+                doneShopping = true;
+            }
+        }
+        System.out.println("You exit the shop.\n");
+        TextGame.delay(1);
+    }
+
+    public void coinMerchant(Character character) {
+        System.out.println("You come across a merchant that will grant items and buffs,\nat the cost of coins.\n");
+        TextGame.delay(1);
+        boolean doneShopping = false;
+        while(doneShopping == false) {
+            System.out.println("Coin Pouch: " + character.getCoins() + "\n");
+            System.out.println("1) 10 coins -> Health Potion\n2) 15 coins -> Mana Potion\n3) 15 coins -> Antidote\n4) Done\n");
+            int choice = input.nextInt();
+            if(choice == 1) {
+                if(character.getCoins() >= 10) {
+                    character.setCoins(character.getCoins()-10);
+                    character.addHealthPots(1);
+                    System.out.println("You pay 10 coins for 1 health potion.\n" + character);
+                } else {
+                    System.out.println("You don't have enough coins to pay!\n");
+                }
+            } else if(choice == 2) {
+                if(character.getCoins() >= 15) {
+                    character.setCoins(character.getCoins()-15);
+                    character.addManaPots(1);
+                    System.out.println("You pay 15 coins for 1 mana potion.\n" + character);
+                } else {
+                    System.out.println("You don't have enough coins to pay!\n");
+                }
+            } else if(choice == 3) {
+                if(character.getCoins() >= 15) {
+                    character.setCoins(character.getCoins()-15);
+                    character.addAntidote(1);
+                    System.out.println("You pay 15 coins for 1 antidote.\n" + character);
+                } else {
+                    System.out.println("You don't have enough coins to pay!\n");
+                }
+            } else {
+                doneShopping = true;
+            }
+        }
+        System.out.println("You exit the shop.\n");
+        TextGame.delay(1);
+    }
+
+    public void pinata(Character c) {
+        System.out.println("You come across a possessed pinata, filled with loot.\n");
+        Enemy pinata = new Pinata(c.getLevel());
+        battle(c, pinata);
+        System.out.println("The pinata dropped 5 attack, 5 speed, and restores a third(" + c.getMaxHealth()/3 + ") of your health!\n");
+        TextGame.delay(1);
+        c.addHealth(c.getMaxHealth()/3);
+        c.setAttack(c.getAttack()+5);
+        c.setSpeed(c.getSpeed()+5);
+        System.out.println(character);
+        TextGame.delay(1);
+    }
+
+    public void dartHall(Character character) {
+        System.out.println("You come across a hall. The walls are pocked with holes that resemble dart traps.\nHow do you get through?\n");
+        TextGame.delay(1);
+        System.out.println("1) - Sprint through\n2) - Crawl through\n3) - Falcon punch\n4) - Wait and make a plan\n5) - Climb rocks and go around\n6) - Parkour\n7) - Use a goblin as a meat shield\n8) - Go an alternate path\n9) - Maybe they aren't dart traps...?\n");
+        int dartTrap = input.nextInt();
+        if(dartTrap == 1){
+            System.out.println("Why the hell not. You sprint past flying darts and make it through unscathed I guess.\n");
+        } else if (dartTrap == 2){
+            System.out.println("Crawling is lame. You went too slow and got hit by a few darts.\nYou lose 30 health.\n");
+            character.setHealth(character.getHealth()-30);
+        } else if (dartTrap == 3){
+            System.out.println("You wind up for the legendary falcon punch, but you ain't dat boi Captain Falcon.\nYou get a dart to the nuts and lose 50 health.\n");
+            character.setHealth(character.getHealth()-50);
+        } else if (dartTrap == 4){
+            System.out.println("You wait and make a plan until you starve to death.\n");
+            character.setHealth(0);
+        } else if (dartTrap == 5){
+            System.out.println("As you begin to scale the wall, you spontaneously combust.\n");
+            character.setHealth(0);
+        } else if (dartTrap == 6){
+            System.out.println("You vault through the hall, and as you go find a rune that boosts your attack(+3) and speed(+5).\nAs you admire it, you are eviscerated by darts and lose 50 health.\n");
+            character.setHealth(character.getHealth()-50);
+            character.setAttack(character.getAttack()+3);
+            character.setSpeed(character.getSpeed()+5);
+        } else if (dartTrap == 7){
+            System.out.println("You pick up a nearby goblin and drape him over yourself as you run through the hall.\nYou make it safely across, however the goblin gets rekt. You're a terrible person, and you lose 5 health.\n");
+            character.setHealth(character.getHealth()-5);
+        } else if(dartTrap == 8) {
+            System.out.println("You go through another hall instead, but get mugged by homeless goblins.\nYou lose 10 health in the struggle, and they take all your coins..\n");
+            character.setHealth(character.getHealth()-10);
+            character.setCoins(0);
+        } else {
+            System.out.println("You're struck with darts. Lmao you evolved into a pincushion!\n");
+            character.setHealth(0);
+        }
+
+        if(character.getHealth() <= 0 ){
+            deathSequence(character);
+        }
+        TextGame.delay(1);
+        System.out.println(character);
+        TextGame.delay(1);
+    }
+
+    public void battleChest(Character character) {
+        System.out.println("The enemy was guarding a chest, do you want to open it?\n");
+        String answer = input.next();
+        if(answer.equalsIgnoreCase("Yes")) {
+            int rand = (int) (Math.random()*7);
+            System.out.print(blanks + "Opening");
+            TextGame.delayHalf(1);
+            System.out.print(".");
+            TextGame.delayHalf(1);
+            System.out.print(".");
+            TextGame.delayHalf(1);
+            System.out.println(".\n");
+            TextGame.delayHalf(1);
+            if(rand == 0) {
+                int boost = 1 + character.getAttack()/5;
+                System.out.println("You found a rune boosting ATTACK power by " + boost + " attack.\n");
+                character.setAttack(character.getAttack()+boost);
+            } else if(rand == 1 || rand == 2) {
+                int boost = 1 + character.getSpeed()/5;
+                System.out.println("You found a rune boosting SPEED by " + boost + " speed.\n");
+                character.setSpeed(character.getSpeed()+boost);
+            } else if (rand == 6) {
+                int sap = character.getHealth()/5;
+                System.out.println("You found a rune sapping a fifth(" + sap + ") of your health.\n");
+                character.setHealth(character.getHealth()-sap);
+            } else {
+                System.out.println("You find a rune that breaks in your hands. You are able to sell the pieces for 5 coins.\n");
+                character.setCoins(character.getCoins()+5);
+            }
+        } else {
+            TextGame.delay(1);
+            System.out.println("You leave the chest, proving you're no fun.\n");
+        }
+        
+    }
+    
+    public void bossBattle(Character character, Enemy enemy) {
+        boolean battleEnd = false;
+        System.out.println("\n" + blanks +"The great " + enemy.getName() + " appears!\n");
+        while (!battleEnd) {
+            if (character.getHealth() > 0) {
+                if (enemy.getHealth() > 0) {
+                    if(dysentery == true) {
+                        TextGame.delay(1);
+                        System.out.println("You are confronted by the great " + enemy.getName() + ", but you don't feel so good.\nYou collapse and die of dysentery from the fruit rollup.\n");
+                        deathSequence(character);
+                    }
+
+                    boolean chosen = false;
+                    TextGame.delay(1);
+                    System.out.println(enemy);
+
+                    while(chosen == false) {
+                        System.out.println("1) Attack \n2) Stats\n3) Special\n4) Health Potion\n5) Mana Potion\n6) Antidote\n");
+                        int choice = input.nextInt();
+                        if(choice == 2) {
+                            characterStats(character);
+                        } else if (choice == 3) {
+                            if(character.turnsTillSpecial() <= 0) {
+                                chosen = true;
+                            }
+                            if(character.getClassChoice().equals("Ranged")) {
+                                enemy.setHealth(character.special(enemy));
+                            } else if(character.getClassChoice().equals("Heavy")) {
+                                enemy.setHealth(character.special(enemy));
+                            } else {
+                                character.special(enemy);    
+                            }
+                        } else if (choice == 4) {
+                            if(character.getHealthPots() > 0) {
+                                character.useHealthPots(character);
+                            } else {
+                                System.out.println("You have no health potions.\n");
+                            }
+                        } else if (choice == 5) {
+                            if(character.getManaPots() > 0) {
+                                character.useManaPots(character);
+                            } else {
+                                System.out.println("You have no mana potions.\n");
+                            }
+                        } else if (choice == 6) {
+                            if(character.getAntidote() > 0) {
+                                if(character.getPoison()==true) {
+                                    character.useAntidote(character);
+                                } else {
+                                    System.out.println("You aren't poisoned.");
+                                }
+                            } else {
+                                System.out.println("You have no antidotes.\n");
+                            }
+                        } else {
+                            chosen = true;
+                        }
+                    }
+                    character.specialIncrement();
+                    character.poisonDamage();
+                    if(character.getHealth() > 0) {
+                        if (enemy.getHealth() > 0) {
+                            if(character.getSpeed() >= enemy.getSpeed()) {
+                                enemy.setHealth(character.attack(enemy));
+                                TextGame.delay(1);
+                                if(enemy.getHealth() > 0) {
+                                    character.setHealth(enemy.attack(character));
+                                }
+                            } else {
+                                character.setHealth(enemy.attack(character));
+                                TextGame.delay(1);
+                                if(character.getHealth() > 0) {
+                                    enemy.setHealth(character.attack(enemy));
+                                }   
+                            }
+                        }
+                        if(character.getPoison() == true) {
+                            character.setPoisonTurns(character.getPoisonTurns()+1);
+                        }
+                    }
+                } else {
+                    System.out.println("*Enemy dies*");
+                    battleEnd = true;
+                    character.addEnemy();
+                    character.levelUp();
+                    character.setCoins(character.getCoins() + enemy.deathCoins(character));
+                    TextGame.delay(1);
+                    System.out.println(character);
+                    TextGame.delay(1);
+                }
+            }
+            else {
+                TextGame.delay(1);
+                battleEnd = true;
+                deathSequence(character);
+            }
+        }    
+    }
+
+    
+    public void endGame(Character character) {
+        System.out.println("After defeating the UberBEES and exiting the dungeon with a trove of coins,\nyou go to celebrate at home with a box of fruit rollups.");
+        System.out.println("*At home*\nDo you eat the fruit rollups?\n");
+        String answer = input.next();
+        if(answer.equalsIgnoreCase("Yes")) {
+            System.out.println("You do not contract dysentery, that'd be ridiculous.\n");
+        } else {
+            System.out.println("Geez, someone's paranoid.\n");
+        }
+        System.out.println("Congratulations! You beat this untitled game!\n" + character);
+        System.exit(0);
+    }
+}
+
