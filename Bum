@@ -1,0 +1,24 @@
+public class Bum extends Enemy {
+
+    public Bum(String name, int range, int health, int pwr, int spd, int specialTimer, int priority, int lvl) {
+        super(name, range, health, pwr, spd, specialTimer, priority, lvl);
+    }
+
+    public int move(int distance) {
+        this.delay(1000);
+        System.out.println("\nBummy Ass Nigga sauces forward " + speed + " units!");
+        distance -= speed;
+        return distance;
+    }
+
+    public void attack(Person a) {
+        super.delay(1000);
+        a.setHealth(a.getHealth() - power);
+        System.out.print("Bummy Ass Nigga ravages through your pockets for " + power + " damage!");
+        if (a.isAlive() == true) {
+            System.out.println(" " + a.getName() + " has " + a.getHealth() + " health!");
+        } else {
+            System.out.println(" " + a.getName() + " has been bitten and turned into a fellow Bummy Ass Nigga. And died!");
+        }
+    }
+}
