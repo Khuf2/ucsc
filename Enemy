@@ -1,0 +1,54 @@
+
+public abstract class Enemy
+{
+    protected String charName;
+    protected int level, attack, health, speed, MAXHEALTH, deathCoin;
+    
+    public Enemy(String name, int lvl, int healthConstant, int attackConstant, int speedConstant, int dcValue) {
+        charName = name;
+        level = lvl;
+        health = healthConstant * lvl;
+        attack = attackConstant * lvl;
+        speed = speedConstant * lvl;
+        MAXHEALTH = health;
+        deathCoin = dcValue;
+    }
+
+    public abstract int attack(Character character);
+    
+    public String getName() {
+        return charName;
+    }
+    
+    public int getLevel() {
+        return level;
+    }
+    
+    public int getAttack() {
+        return attack;
+    }
+    
+    public int getHealth() {
+        return health;
+    }
+    
+    public int getSpeed() {
+        return speed;
+    }
+    
+    public void setHealth(int hp) {
+        health = hp;
+    }
+    
+    public void addHealth(int hp) {
+        if(health + hp > MAXHEALTH) {
+            health = MAXHEALTH;
+        } else {
+            health += hp;
+        }
+    }
+    
+    public int deathCoins(Character character) {
+        return deathCoin;
+    }
+}
