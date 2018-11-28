@@ -1,0 +1,58 @@
+public class Heavy extends Character
+{
+    String blanks = "                  ";
+    public Heavy(String name) {
+        super(name, "Heavy", 120, 5, 2, 4);
+    }
+
+    public int attack(Enemy enemy) {
+        int rand = (int) (Math.random() * (getAttack()/2));
+        int damage = getAttack() + rand;
+        System.out.println("You swing your sword to do " + damage + " damage.");
+        return enemy.getHealth()-damage;
+    }
+    
+    public void levelUp() {
+        System.out.println(blanks + getName() + " has leveled up!");
+        setHealth(getHealth() + 10);
+        setMaxHealth(getMaxHealth() + 10);
+        setAttack(getAttack() + 3);
+        setSpeed(getSpeed() + 1);
+        incrementLevel();
+    }
+    
+    public int special(Enemy enemy) {
+        //Damage reflect
+        if(specialReady()) {
+            resetSpecial();
+            System.out.println("You reflect an enemy attack to deal " + enemy.getAttack() + " damage.");
+            return enemy.getHealth()-enemy.getAttack();
+        } else {
+            System.out.println("Your special will be ready in " + turnsTillSpecial() + " turns.");
+            return enemy.getHealth();
+        }
+    }
+    
+    public String toString() {
+        String poison = "";
+        String s = blanks + "----------------\n";
+        if(getPoison() == true) {
+            poison += " *POISONED(" + getPoisonTurns() + ")*";
+        }
+        s += blanks + getName() + ": Level " + getLevel() + poison + " Heavy \n";
+        s += blanks + "Health: " + getHealth() + "/" + getMaxHealth() + "\n";
+        s += blanks + "Attack: " + getAttack() + "\n";
+        s += blanks + "Speed: " + getSpeed() + "\n";
+        s += blanks + "Coins: " + getCoins() + "\n";
+        s += blanks + "Health Potions: " + getHealthPots() + "\n";
+        s += blanks + "Mana Potions: " + getManaPots() + "\n";
+        s += blanks + "Enemies Defeated: " + getEnemiesKilled() + "\n";
+        if(turnsTillSpecial() > 0) {
+            s += blanks + "Special: " + turnsTillSpecial() + " turns \n";
+        } else {
+            s += blanks + "Special: Ready\n";
+        }
+        s += blanks + "----------------\n";
+        return s;
+    }
+}
