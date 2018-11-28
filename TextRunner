@@ -1,0 +1,78 @@
+//Final Runner Of Game
+
+/* Fixes List:
+ - 
+*/
+import java.util.Scanner;
+
+public class TextRunner
+{
+    static Scanner staticKeyboard = new Scanner(System.in);
+    public static void main(String args[]) {
+        TextGame methods = new TextGame();
+        Character character;
+        Scanner keyboard = new Scanner(System.in);
+        
+        System.out.println(methods.introSequence());
+        
+        character = methods.characterSelect(); 
+        System.out.println("\n" + character);
+       
+        Enemy troll = new Troll(character.getLevel());
+        methods.battle(character, troll);
+        
+        methods.leftRightPath("Left", character);
+        
+        troll = new Troll(character.getLevel());
+        methods.leftRightPath("Left", character, troll);
+        
+        methods.randomChance(character);
+        
+        Enemy venomBee = new VenomBee(character.getLevel());
+        methods.battle(character, venomBee);
+        
+        methods.coinMerchant(character);
+        
+        methods.riddle(character);
+        
+        Enemy golem = new Golem(character.getLevel()+1);
+        methods.leftRightPath("Right", character, golem);
+        
+        methods.fruitRollup(character);
+        
+        methods.healthMerchant(character);
+        
+        golem = new Golem(character.getLevel());
+        methods.battle(character, golem);
+        
+        methods.coinMerchant(character);
+        
+        methods.pinata(character);
+        
+        methods.dartHall(character);
+        
+        troll = new Troll(character.getLevel()-1);
+        methods.battle(character, troll);
+        
+        venomBee = new VenomBee(character.getLevel());
+        methods.battle(character, venomBee);
+        
+        methods.coinMerchant(character);
+        
+        methods.leftRightPath("Right", character);
+        
+        methods.pinata(character);
+        
+        methods.healthMerchant(character);
+        
+        venomBee = new VenomBee(character.getLevel());
+        methods.battle(character, venomBee);
+        
+        methods.coinMerchant(character);
+        
+        Enemy uberbees = new UberBEES(character.getLevel());
+        methods.bossBattle(character, uberbees);
+        
+        methods.endGame(character);
+    }
+}
