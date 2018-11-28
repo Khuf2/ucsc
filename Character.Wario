@@ -5,10 +5,10 @@ public class Wario extends Person
     }
 
     public void attack(Enemy b) {
-        super.delay(1000);
-        b.setHealth(b.getHealth() - power);
-        System.out.print("Wario cries out in confusion for " + power + " damage!");
-        if (b.isAlive() == true) {
+        format.delay(1000);
+        b.setHealth(b.getHealth() - this.getPower());
+        System.out.print("Wario cries out in confusion for " + this.getPower() + " damage!");
+        if (b.isAlive()) {
             System.out.println(" " + b.getName() + " has " + b.getHealth() + " health!");
         } else {
             System.out.println(" " + b.getName() + " has contracted genital warts (the bad kind) and died!");
@@ -16,23 +16,37 @@ public class Wario extends Person
     }
 
     public int move(int distance) {
-        this.delay(1000);
-        System.out.println("\nWario hobbles forward " + speed + " units!");
-        distance -= speed;
+        format.delay(1000);
+        System.out.println("\nWario hobbles forward " + this.getSpeed() + " units!");
+        distance -= this.getSpeed();
         return distance;
     }
 
     public boolean flee(Enemy b) {
         System.out.println("\n");
-        super.delay(1000);
-        if(speed>=b.getSpeed()) {
-            System.out.println(name + " escaped from battle!\n");
-            super.delay(1000);
+        format.delay(1000);
+        if(this.getSpeed()>=b.getSpeed()) {
+            System.out.println(this.getName() + " escaped from battle!\n");
+            format.delay(1000);
             return true;
         } else {
-            System.out.println(name + " was too slow to escape from battle!\n");
-            super.delay(1000);
+            System.out.println(this.getName() + " was too slow to escape from battle!\n");
+            format.delay(1000);
             return false;
+        }
+    }
+
+    public void skill(Enemy b) {
+        format.delay(1000);
+        int damage = this.getPower()/2;
+        int healing = damage/2;
+        b.setHealth(b.getHealth() - damage);
+        this.setHealth(this.getHealth()+healing);
+        System.out.print("\nKermit robs your 401K for " + damage + " damage!\nKermit heals for " + healing + " health!");
+        if (b.isAlive()) {
+            System.out.println(" " + b.getName() + " has " + b.getHealth() + " health!");
+        } else {
+            System.out.println(" " + b.getName() + " has been beanboozled and died!");
         }
     }
 }
