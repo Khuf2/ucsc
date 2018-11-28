@@ -1,9 +1,11 @@
-public class Person {
+ public class Person {
     int attack_range;
     int speed;
     int health;
     int power;
     int priority;
+    int maxHealth;
+    int specialTimer = 0;
     boolean alive;
     String name;
 
@@ -14,6 +16,7 @@ public class Person {
         health = h;
         power = p;
         priority = pr;
+        maxHealth = h;
     }
 
     public void delay(int d) {
@@ -46,10 +49,49 @@ public class Person {
         }
     }
 
+    public void profile(Person a, Person b) {
+        this.delay(1000);
+        // "Name: will always be 7 to 26 chars
+        // We always want at least 10 chars in Name: m
+        // integer of 6 + name.length()
+        // "Range: will always have 7 to 10 chars
+        String rangeString = "\nRange: " + a.attack_range;
+        String speedString = "\nSpeed: " + a.speed;
+        String powerString = "\nPower: " + a.power;
+        String healthString = "\nHealth: " + a.health;
+        String priorityString = "\nPriority: " + a.priority;
+        int nameStringLength = 6 + a.name.length();
+        int rangeStringLength = a.name.length() - (String.valueOf(a.attack_range).length()+1);
+        int speedStringLength = a.name.length() - (String.valueOf(a.speed).length()+1);
+        int powerStringLength = a.name.length() - (String.valueOf(a.power).length()+1);
+        int healthStringLength = a.name.length() - (String.valueOf(a.health).length()+2);
+        int priorityStringLength = a.name.length() - (String.valueOf(a.priority).length()+4);
+        for(int i = 0; i < rangeStringLength; i++) {
+            rangeString += " ";
+        }
+        for(int i = 0; i < speedStringLength; i++) {
+            speedString += " ";
+        }
+        for(int i = 0; i < powerStringLength; i++) {
+            powerString += " ";
+        }
+        for(int i = 0; i < healthStringLength; i++) {
+            healthString += " ";
+        }
+        for(int i = 0; i < priorityStringLength; i++) {
+            priorityString += " ";
+        }
+        System.out.println("\nName: " + a.name +  "\t\tEnemy Name: " + b.name + rangeString + "\t\tEnemy Range: " + b.attack_range + speedString
+                + "\t\tEnemy Speed: " + b.speed + healthString + "\t\tEnemy Health: " + b.health + powerString + "\t\tEnemy Power: " + b.power + priorityString + "\t\tEnemy Priority: " + b.priority + "\n");
+
+    }
     public void profile() {
         this.delay(1000);
-        System.out.println("\nName: " + name +"\nRange: " + attack_range + "\nSpeed: " + speed
-                + "\nHealth: " + health + "\nPower: " + power + "\nPriority: " + priority + "\n");
+        System.out.println("\nName: " + name + "\nRange: " + attack_range +  "\nSpeed: " + speed + "\nHealth: " + health + "\nPower: " + power + "\nPriority: " + priority);
+    }
+
+    public void getBattleStats() {
+        System.out.println(name + " (" + specialTimer + ") " + health + "/" + maxHealth);
     }
 
     public int getAttack_range() {
@@ -70,5 +112,10 @@ public class Person {
 
     public void setHealth(int h) {
         health = h;
+    }
+    public int getMaxHealth() {return maxHealth;}
+
+    public void setMaxHealth(int h) {
+        maxHealth = h;
     }
 }
