@@ -1,21 +1,17 @@
 import java.util.Scanner;
 
-    public class Runner {
+public class Runner {
 
-        public static void main(String[] args) {
-            // Creation of Scanners, reader for strings and inter for numbers
-            Scanner input = new Scanner(System.in);
+    public static void main(String[] args) {
+        // Creation of Scanners, reader for strings and inter for numbers
+        Scanner input = new Scanner(System.in);
 
-            Methods caller = new Methods();
+        Methods caller = new Methods();
 
-            Person user1 = caller.makePerson();
-            Person user2 = caller.makePerson();
+        Person user1 = caller.makePerson();
 
-            user1.profile(user1, user2);
-           // user2.profile();
-           // user1.profile();
+        Enemy enemy1 = caller.makeEnemy("Bummy Ass Nigga");
+        caller.battle(user1, enemy1);
 
-            caller.battle(user1, user2);
-
-        }
     }
+}
