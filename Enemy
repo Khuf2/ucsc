@@ -1,54 +1,78 @@
+public abstract class Enemy {
+    int health;
+    int power;
+    int speed;
+    int attack_range;
+    String name;
+    int specialTimer;
+    int priority;
+    int lvl;
+    int maxHealth;
+    int attack_speed;
 
-public abstract class Enemy
-{
-    protected String charName;
-    protected int level, attack, health, speed, MAXHEALTH, deathCoin;
-    
-    public Enemy(String name, int lvl, int healthConstant, int attackConstant, int speedConstant, int dcValue) {
-        charName = name;
-        level = lvl;
-        health = healthConstant * lvl;
-        attack = attackConstant * lvl;
-        speed = speedConstant * lvl;
-        MAXHEALTH = health;
-        deathCoin = dcValue;
+    public Enemy(String name, int range, int health, int pwr, int spd, int specialTimer, int priority, int lvl) {
+        this.name = name;
+        this.health = health;
+        this.power = pwr;
+        this.speed = spd;
+        this.name = name;
+        this.attack_range = range;
+        this.specialTimer = specialTimer;
+        this.priority = priority;
+        this.lvl = lvl;
+        this.maxHealth = health;
+
     }
 
-    public abstract int attack(Character character);
-    
-    public String getName() {
-        return charName;
-    }
-    
-    public int getLevel() {
-        return level;
-    }
-    
-    public int getAttack() {
-        return attack;
-    }
-    
-    public int getHealth() {
-        return health;
-    }
-    
-    public int getSpeed() {
-        return speed;
-    }
-    
-    public void setHealth(int hp) {
-        health = hp;
-    }
-    
-    public void addHealth(int hp) {
-        if(health + hp > MAXHEALTH) {
-            health = MAXHEALTH;
-        } else {
-            health += hp;
+    public void delay(int d) {
+        try
+        {
+            Thread.sleep(d);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
         }
     }
-    
-    public int deathCoins(Character character) {
-        return deathCoin;
+
+    public void getBattleStats() {
+        System.out.println(name + " (" + specialTimer + ") " + health + "/" + maxHealth);
+    }
+
+    public boolean isAlive() {
+        if(health>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public abstract int move(int distance);
+
+    public abstract void attack(Person a);
+
+    public String getName() {
+        return name;
+    }
+
+    public int getSpeed() { return speed; }
+
+    public int getHealth() {return health;}
+
+    public int getPower() {return power;}
+
+    public int getPriority() {return priority;}
+
+    public void setHealth(int h) {
+        health = h;
+    }
+    public int getMaxHealth() {return maxHealth;}
+
+    public void setMaxHealth(int h) {
+        maxHealth = h;
+    }
+
+    public int getAttackRange() {
+        return attack_range;
     }
 }
