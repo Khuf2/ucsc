@@ -1,0 +1,22 @@
+public class Format {
+
+    public Format() {}
+
+    public void newLine() {
+        System.out.println("\n");
+    }
+
+    public void delay(int d) {
+        try
+        {
+            Thread.sleep(d);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void newDivider() {
+        System.out.println("*********************************************************************************************************************************");
+    }
