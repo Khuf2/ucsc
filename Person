@@ -1,4 +1,4 @@
-public abstract class Person {
+public abstract class Person extends Entity{
     int attack_range;
     int speed;
     int health;
@@ -8,26 +8,12 @@ public abstract class Person {
     int specialTimer = 0;
     String name;
 
-    public Person(String n, int range, int spd, int hlth, int pwr, int prio) {
-        attack_range = range;
-        speed = spd;
-        name = n;
-        health = hlth;
-        power = pwr;
-        priority = prio;
-        maxHealth = hlth;
+    Format format = new Format();
+
+    public Person(String n, int range, int spd, int hlth, int pwr, int prio, int specialTimer, int lvl) {
+        super(n, range, spd, hlth, pwr, prio, specialTimer, lvl);
     }
 
-    public void delay(int d) {
-        try
-        {
-            Thread.sleep(d);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
-    }
 
     public boolean isAlive() {
         if(health>0) {
@@ -36,6 +22,7 @@ public abstract class Person {
             return false;
         }
     }
+    public abstract void skill(Enemy b);
 
     public abstract void attack(Enemy b);
 
@@ -53,9 +40,10 @@ public abstract class Person {
         System.out.println(name + " (" + specialTimer + ") " + health + "/" + maxHealth);
     }
 
-    public int getAttack_range() {
+    /*public int getAttack_range() {
         return attack_range;
     }
+    */
 
     public String getName() {
         return name;
@@ -71,6 +59,9 @@ public abstract class Person {
 
     public void setHealth(int h) {
         health = h;
+        if(health>maxHealth) {
+            health = maxHealth;
+        }
     }
     public int getMaxHealth() {return maxHealth;}
 
