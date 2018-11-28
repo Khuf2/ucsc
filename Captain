@@ -1,0 +1,38 @@
+public class Captain extends Person
+{
+    public Captain(String n, int range, int spd, int hlth, int pwr, int prio) {
+        super(n, range, spd, hlth, pwr, prio);
+    }
+
+    public void attack(Enemy b) {
+        super.delay(1000);
+        b.setHealth(b.getHealth() - power);
+        System.out.print("Captain K'nuckles gets handsy for " + power + " damage!");
+        if (b.isAlive() == true) {
+            System.out.println(" " + b.getName() + " has " + b.getHealth() + " health!");
+        } else {
+            System.out.println(" " + b.getName() + " didn't consent and died!");
+        }
+    }
+
+    public int move(int distance) {
+        this.delay(1000);
+        System.out.println("\nCaptain K'nuckles contorts forward " + speed + " units!");
+        distance -= speed;
+        return distance;
+    }
+
+    public boolean flee(Enemy b) {
+        System.out.println("\n");
+        super.delay(1000);
+        if(speed>=b.getSpeed()) {
+            System.out.println(name + " escaped from battle!\n");
+            super.delay(1000);
+            return true;
+        } else {
+            System.out.println(name + " was too slow to escape from battle!\n");
+            super.delay(1000);
+            return false;
+        }
+    }
+}
