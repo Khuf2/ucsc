@@ -1,4 +1,6 @@
- public Kermit(String n, int range, int spd, int hlth, int pwr, int prio) {
+public class Kermit extends Person
+{
+    public Kermit(String n, int range, int spd, int hlth, int pwr, int prio) {
         super(n, range, spd, hlth, pwr, prio);
     }
 
